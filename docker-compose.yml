@@ -1,8 +1,8 @@
 version: "3.9"
 services:
   nginxservice:
-    image: '$(containerRegistryName).my-nginx' 
-    container_name:
+    image: 'dockertestimagenginx.my-nginx' 
+    container_name: nginx
   deploy:
     replicas: 1
     restart_policy:
