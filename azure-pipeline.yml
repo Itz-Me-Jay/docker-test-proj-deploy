@@ -23,3 +23,40 @@
         dockerComposeCommand: 'up -d' 
 
 */
+
+
+
+#Nginx deploy
+
+trigger:
+ branches:
+   include:
+     - main # Indentation is important here
+
+pool:
+ name: 'project-pool' # Adjust as needed for your Azure Pipelines agent
+
+variables:
+  containerRegistryName: 'your-container-registry-name' 
+  imageTag: 'my-nginx:latest' 
+
+stages:
+- stage: Build
+  jobs:
+  - job: BuildImage
+    displayName: "Build docker image"
+    steps:
+    - task: Docker@0
+      displayName: "Build an docker image"
+      inputs:
+        azureSubscription: "docker-test-lab "
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        azureContainerRegistry: '{"loginServer":"dockertestcontainer1.azurecr.io", "id" : "/subscriptions/f9975a12-2adb-465a-a9c1-83e85eabbfc5/resourceGroups/docker_test_resource_group/providers/Microsoft.ContainerRegistry/registries/dockertestcontainer1"}'
+        imageName: "my-nginx:latest"
+    - task: Docker@1
+      displayName: "Push a Docker image to container registry"
+      inputs:
+        azureSubscription: "docker-test-lab "
+        azureContainerRegistry: '{"loginServer":"dockertestcontainer1.azurecr.io", "id" : "/subscriptions/f9975a12-2adb-465a-a9c1-83e85eabbfc5/resourceGroups/docker_test_resource_group/providers/Microsoft.ContainerRegistry/registries/dockertestcontainer1"}'
+        action: "push an image"
+        imageName: 'my-nginx'
