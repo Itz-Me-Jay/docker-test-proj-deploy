@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   nginxservice:
-    image: 'dockertestimagenginx.my-nginx' 
+    image: 'dockertestcontainer1.azurecr.io/dockertestimagenginx' 
     container_name: nginx
   deploy:
     replicas: 1
@@ -9,3 +9,4 @@ services:
       condition: any
   ports:
     - "80:80"
+
