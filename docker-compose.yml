@@ -9,4 +9,3 @@ services:
       condition: any
   ports:
     - "80:80"
-
